@@ -34,4 +34,8 @@ while True:
     except:
         pass
     cv2.imshow("Output", frame)
-    cv2.waitKey(1)
+    key = cv2.waitKey(1)
+    if key == 27:
+        break
+cap.release()
+cv2.destroyAllWindows()
