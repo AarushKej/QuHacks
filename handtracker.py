@@ -2,8 +2,6 @@ import cv2
 import mediapipe as mp
 from mouse import Mouse
 from _thread import start_new_thread
-import face_recognition
-import time
 
 cap = cv2.VideoCapture(0)
 mpHands = mp.solutions.hands
