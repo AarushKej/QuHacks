@@ -10,16 +10,11 @@ class Mouse():
 
     def distanceBetweenFingers(self, x, X, y, Y):
         distance = math.sqrt(((x-X)**2)+((y-Y)**2))
-        #print(distance)
         return distance
 
-    def leftClick(self, distance, x, y):
-        if distance <= 70:
+    def leftClick(self, distanceI, distanceM, x, y):
+        if distanceI <= 70 and distanceM > 100:
             pg.click(x, y)
-    
-    def drag(self, distance, x, y):
-        if  distance <= 70:
-            pg.dragTo(x, y, button="left")
     
     def rightClick(self, distance, x, y):
         if distance <= 70:
@@ -35,6 +30,3 @@ class Mouse():
                     pg.press('volumeup')
             else:
                     pg.press('volumedown')
-
-
-        
