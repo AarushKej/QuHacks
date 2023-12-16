@@ -1,10 +1,13 @@
 import cv2
 import mediapipe as mp
+from mouse import Mouse
 
 cap = cv2.VideoCapture(0)
 mpHands = mp.solutions.hands
 hands = mpHands.Hands()
 mpDraw = mp.solutions.drawing_utils
+
+ms = Mouse()
 
 while True:
     ret, frame = cap.read()
@@ -22,7 +25,10 @@ while True:
                     cv2.circle(frame, (cx, cy), 25, (255, 0, 255), cv2.FILLED)
     try:
         mpDraw.draw_landmarks(frame, handLms, mpHands.HAND_CONNECTIONS)
-        print(finger_pos[4][0], finger_pos[4][1])
+        distance_index = ms.distanceBetweenFingers(finger_pos[4][0], finger_pos[8][0], finger_pos[4][1], finger_pos[8][1])
+        print(distance_index)
+        ms.leftClick(distance_index)
+
     except:
         pass
     cv2.imshow("Output", frame)
