@@ -3,6 +3,7 @@ import mediapipe as mp
 from mouse import Mouse
 from _thread import start_new_thread
 import face_recognition
+import time
 
 cap = cv2.VideoCapture(0)
 mpHands = mp.solutions.hands
@@ -19,8 +20,16 @@ class Global():
 
 g = Global()
 
-def fl(rgb_frame):
-    g.face_locations = face_recognition.face_locations(rgb_frame)
+def fl():
+    ret, frame = cap.read()
+    frame = cv2.flip(frame, 1)
+    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    while True:
+        g.face_locations = face_recognition.face_locations(rgb_frame)
+        if g.face_locations and g.face_locations[0][2]>0.9:
+            time.sleep(30)
+
+start_new_thread(fl, ())
 
 while True:
     ret, frame = cap.read()
@@ -28,7 +37,6 @@ while True:
     results = hands.process(frame)
     finger_pos = {8: None, 16: None, 4: None, 12: None}
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    start_new_thread(fl, (rgb_frame,))
     face_locations = g.face_locations
     if face_locations and face_locations[0][2]>0.9:
         if results.multi_hand_landmarks:
