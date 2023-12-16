@@ -3,6 +3,7 @@ import mediapipe as mp
 from mouse import Mouse
 from _thread import start_new_thread
 
+
 cap = cv2.VideoCapture(0)
 mpHands = mp.solutions.hands
 hands = mpHands.Hands()
@@ -29,11 +30,12 @@ while True:
         distance_middle = ms.distanceBetweenFingers(finger_pos[4][0], finger_pos[12][0], finger_pos[4][1], finger_pos[12][1])
         distance_ring = ms.distanceBetweenFingers(finger_pos[4][0], finger_pos[16][0], finger_pos[4][1], finger_pos[16][1])
 
-        start_new_thread(ms.updatePos, (finger_pos[4][0], finger_pos[4][1]))
-        start_new_thread(ms.leftClick, (distance_index, finger_pos[4][0], finger_pos[4][1]))
-        start_new_thread(ms.rightClick, (distance_ring, finger_pos[4][0], finger_pos[4][1]))
-        start_new_thread(ms.drag, (distance_middle, finger_pos[4][0], finger_pos[4][1]))
-
+        #start_new_thread(ms.updatePos, (finger_pos[4][0], finger_pos[4][1]))
+        #start_new_thread(ms.leftClick, (distance_index, finger_pos[4][0], finger_pos[4][1]))
+        #start_new_thread(ms.rightClick, (distance_ring, finger_pos[4][0], finger_pos[4][1]))
+        #start_new_thread(ms.drag, (distance_middle, finger_pos[4][0], finger_pos[4][1]))
+        start_new_thread(ms.volume , (distance_middle, distance_ring, distance_index))
+        
     except:
         pass
     cv2.imshow("Output", frame)
