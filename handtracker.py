@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 from mouse import Mouse
+from _thread import start_new_thread
 
 cap = cv2.VideoCapture(0)
 mpHands = mp.solutions.hands
@@ -11,7 +12,7 @@ ms = Mouse()
 
 while True:
     ret, frame = cap.read()
-
+    frame = cv2.flip(frame, 1)
     results = hands.process(frame)
     finger_pos = {8: None, 16: None, 4: None}
     if results.multi_hand_landmarks:
@@ -26,8 +27,9 @@ while True:
     try:
         mpDraw.draw_landmarks(frame, handLms, mpHands.HAND_CONNECTIONS)
         distance_index = ms.distanceBetweenFingers(finger_pos[4][0], finger_pos[8][0], finger_pos[4][1], finger_pos[8][1])
-        print(distance_index)
-        ms.leftClick(distance_index)
+        #print(distance_index)
+        start_new_thread(ms.leftClick, (distance_index, finger_pos[4][0], finger_pos[4][1]))
+        start_new_thread(ms.updatePos, (finger_pos[4][0], finger_pos[4][1]))
 
     except:
         pass
