@@ -16,8 +16,8 @@ class Mouse():
         if distanceI <= 70 and distanceM > 100:
             pg.click(x, y)
     
-    def rightClick(self, distance, x, y):
-        if distance <= 70:
+    def rightClick(self, distanceR, distanceM, x, y):
+        if distanceR <= 70 and distanceM > 100:
             pg.click(x, y, button="right")
 
     def updatePos(self, x, y):
@@ -26,7 +26,8 @@ class Mouse():
     def volume(self, distanceM, distaneR, distanceI):
         if  distanceM <= 70 and distaneR <= 70:
             volume_increment = distanceI
-            if volume_increment > 100:
+            print(volume_increment)
+            if volume_increment > 175:
                     pg.press('volumeup')
             else:
                     pg.press('volumedown')
