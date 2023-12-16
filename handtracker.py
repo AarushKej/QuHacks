@@ -12,15 +12,25 @@ ms = Mouse()
 
 known_image = face_recognition.load_image_file("WIN_20231216_11_38_35_Pro.jpg")
 known_face_encoding = face_recognition.face_encodings(known_image)[0]
+
+class Global():
+    def __init__(self):
+        self.face_locations = None
+
+g = Global()
+
+def fl(rgb_frame):
+    g.face_locations = face_recognition.face_locations(rgb_frame)
+
 while True:
     ret, frame = cap.read()
     frame = cv2.flip(frame, 1)
     results = hands.process(frame)
     finger_pos = {8: None, 16: None, 4: None, 12: None}
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    face_locations = face_recognition.face_locations(rgb_frame)
+    start_new_thread(fl, (rgb_frame,))
+    face_locations = g.face_locations
     if face_locations and face_locations[0][2]>0.9:
-        print("face_locations")
         if results.multi_hand_landmarks:
             for handLms in results.multi_hand_landmarks: # working with each hand
                 for id, lm in enumerate(handLms.landmark):
