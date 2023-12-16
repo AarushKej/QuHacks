@@ -27,3 +27,14 @@ class Mouse():
 
     def updatePos(self, x, y):
         pg.moveTo(x, y)
+
+    def volume(self, distanceM, distaneR, distanceI):
+        if  distanceM <= 70 and distaneR <= 70:
+            volume_increment = distanceI
+            if volume_increment > 200:
+                    pg.press('volumeup')
+            else:
+                    pg.press('volumedown')
+
+
+        
